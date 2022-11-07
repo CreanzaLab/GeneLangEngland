@@ -98,21 +98,21 @@ featuresLingOrig = featuresLingOrig.astype(np.float64)
 
 # genetic sharing matrix, AKA copying matrix, which is direct output from fineSTRUCTURE and contains
 #  estimated length of the genome contributed from every individual to every other individual.
-geneticSharing = np.genfromtxt("../../wombling_data/all_chr.chunklengths.out",
+geneticSharing = np.genfromtxt("../data/all_chr.chunklengths.out",
                                delimiter=" ", skip_header=True,
                                usecols=(range(1, 2040)))
-geneticSharingIDs = np.genfromtxt("../../wombling_data/all_chr.chunklengths.out",
+geneticSharingIDs = np.genfromtxt("../data/wombling_data/all_chr.chunklengths.out",
                                   delimiter=" ", skip_header=True,
                                   usecols=(0), dtype=str)
 # clean geneticSharing to remove individuals from outside of the study area:
 geneticSharing = geneticSharing[:, np.min(geneticSharing, axis=0) == 0]
 
 # # for each individual with genetic data, the associated longitude and latitude:
-geneticCoords = np.genfromtxt("../../tmp/all_chr.english.coords", delimiter="\t")
+geneticCoords = np.genfromtxt("../data/all_chr.english.coords", delimiter="\t")
 
 # sample-location codes and individual codes for the genetic data
 geneticLocations = np.genfromtxt(
-    "../../wtccc/_WTCCC2_POBI_illumina_calls_POBI_illumina.sampleLocations",
+    "../HIDDEN/_WTCCC2_POBI_illumina_calls_POBI_illumina.sampleLocations",
     delimiter="\t", skip_header=1, usecols=(1, 3), dtype=str)
 # filter for locations within England
 geneticLocations = geneticLocations[geneticLocations[:, 0].astype(int) < 30, :]
@@ -137,7 +137,7 @@ for location in np.unique(geneticLocations[:, 0].astype(int)):
     locationIndicesLing.append(np.where(
         locationsLing == location)[0])
 
-britain_tree = Tree("/home/pichkary/Downloads/output_to_return/all_chr_newick_tree")
+britain_tree = Tree("/home/HIDDEN/all_chr_newick_tree")
 english_leaves = [britain_tree.get_leaves_by_name(indiv)[0]
                   for indiv, loc
                   in zip(geneticLocations[:, 1],
@@ -195,7 +195,7 @@ compareDict = {'2': [('A1', 'A2')],
                      ('V5', 'V6')]}
 
 # make polygons for plotting points:
-with open("../../tmp/uk-ceremonial-counties.geojson", "r") as f:
+with open("../data/uk-ceremonial-counties.geojson", "r") as f:
     counties = json.load(f)
 
 # for each county in the genetic dataset, which polygons from the uk-ceremonial-counties file are relevant?
@@ -554,8 +554,8 @@ for t in cb.ax.get_yticklabels():
     t.set_fontsize(35)
 
 plt.tight_layout()
-plt.savefig(fname="../../clusterResultsOut/fig1.pdf", dpi=300, format="pdf")
-plt.savefig(fname="../../clusterResultsOut/fig1.png", dpi=300, format="png")
+plt.savefig(fname="../clusterResultsOut/fig1.pdf", dpi=300, format="pdf")
+plt.savefig(fname="../clusterResultsOut/fig1.png", dpi=300, format="png")
 plt.show()
 
 # Plot colored linguistic clustering
@@ -596,8 +596,8 @@ legend = plt.legend(
     title="Linguistic\nclusters", title_fontsize=24)
 
 plt.tight_layout()
-plt.savefig(fname="../../clusterResultsOut/lingClustersColored.pdf", dpi=300, format="pdf")
-plt.savefig(fname="../../clusterResultsOut/lingClustersColored.png", dpi=300, format="png")
+plt.savefig(fname="../clusterResultsOut/lingClustersColored.pdf", dpi=300, format="pdf")
+plt.savefig(fname="../clusterResultsOut/lingClustersColored.png", dpi=300, format="png")
 plt.show()
 
 # plot Figure 3, Figure S6
@@ -698,8 +698,8 @@ ax.legend(handles=[
     loc="upper right", fontsize=22)
 
 plt.tight_layout()
-plt.savefig(fname="../../clusterResultsOut/lingGeoProcr.pdf", dpi=300, format="pdf")
-plt.savefig(fname="../../clusterResultsOut/lingGeoProcr.png", dpi=300, format="png")
+plt.savefig(fname="../clusterResultsOut/lingGeoProcr.pdf", dpi=300, format="pdf")
+plt.savefig(fname="../clusterResultsOut/lingGeoProcr.png", dpi=300, format="png")
 plt.show()
 
 # plotting linguistic-geographic procrustes with geographic coloring
@@ -776,8 +776,8 @@ legend = plt.legend(
     title="Linguistic\nclusters", title_fontsize=24)
 
 plt.tight_layout()
-plt.savefig(fname="../../clusterResultsOut/lingGeoProcr_geographicColoring.pdf", dpi=300, format="pdf")
-plt.savefig(fname="../../clusterResultsOut/lingGeoProcr_geographicColoring.png", dpi=300, format="png")
+plt.savefig(fname="../clusterResultsOut/lingGeoProcr_geographicColoring.pdf", dpi=300, format="pdf")
+plt.savefig(fname="../clusterResultsOut/lingGeoProcr_geographicColoring.png", dpi=300, format="png")
 plt.show()
 
 # plot the geographic coloring used for figure S6
@@ -963,8 +963,8 @@ ax.legend(handles=[
 #              c=indivClustColor(i))
 
 plt.tight_layout()
-plt.savefig(fname="../../clusterResultsOut/genGeoProcr.png", dpi=300, format="png")
-plt.savefig(fname="../../clusterResultsOut/genGeoProcr.pdf", dpi=300, format="pdf")
+plt.savefig(fname="../clusterResultsOut/genGeoProcr.png", dpi=300, format="png")
+plt.savefig(fname="../clusterResultsOut/genGeoProcr.pdf", dpi=300, format="pdf")
 plt.show()
 
 # Plot the same figure, but with geographic coloring instead of genetic cluster colors:
@@ -1012,6 +1012,6 @@ for i in randOrder:
                 alpha=0.7, s=250 * RES ** 2, edgecolors='none', transform=ccrs.PlateCarree())
 
 plt.tight_layout()
-plt.savefig(fname="../../clusterResultsOut/genGeoProcr_geographicColoring.png", dpi=300, format="png")
-plt.savefig(fname="../../clusterResultsOut/genGeoProcr_geographicColoring.pdf", dpi=300, format="pdf")
+plt.savefig(fname="../clusterResultsOut/genGeoProcr_geographicColoring.png", dpi=300, format="png")
+plt.savefig(fname="../clusterResultsOut/genGeoProcr_geographicColoring.pdf", dpi=300, format="pdf")
 plt.show()
